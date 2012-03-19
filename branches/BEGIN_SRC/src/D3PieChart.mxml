@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!---
+//   creator : minie.pe.kr (irismin@gmail.com)
+//   date : 2010.11
+//	 license : ALL FREE
+-->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="vertical"
+				backgroundColor="#FFFFFF"
+				xmlns:charts="com.charts.*"
+				creationComplete="setRandToPie();">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			
+			protected function setRandToPie():void {
+				var i:int;
+				var cnt:int = Math.round(Math.random()*5) + 5;
+				var item:Object;
+				var toSet:ArrayCollection = new ArrayCollection();
+				
+				
+				for (i = 0; i < cnt; i++) {
+					item = {title: (i + 1) + " : 테스트데이타", value: Math.random() * 100};
+					toSet.addItem(item);
+				}
+				
+				var temp:Array = [];
+				var str:String = "[";
+				
+				
+				for (i = 0; i < cnt; i++) {
+					var colorItem:Object = {};
+					colorItem.r = Math.round(Math.random() * 255);
+					colorItem.g = Math.round(Math.random() * 255);
+					colorItem.b = Math.round( Math.random() * 255);
+					str += "{r:" + colorItem.r + ", g:" + colorItem.g + ", b:" + colorItem.b + "}";
+					
+					
+					if (i < cnt - 1) {
+						str += ", ";
+					}
+					temp.push(colorItem);
+				}
+				str += "]";
+				ti.text = str;
+				pie.colors = temp;
+				pie.dataProvider = toSet;
+			}
+		]]>
+	</mx:Script>
+	<mx:Style>
+		global{
+			font-size:11pt;
+			font-family:돋움;
+		}
+	</mx:Style>
+	<mx:VBox width="100%"
+			 height="100%"
+			 label="3D pie 챠트"
+			 paddingBottom="10"
+			 paddingLeft="10"
+			 paddingRight="10"
+			 paddingTop="10">
+		<mx:HBox width="100%">
+			<mx:Button label="reset"
+					   click="setRandToPie();" />
+			<mx:Button label="turn"
+					   click="pie.turnPie(60);" />
+			<mx:TextInput id="ti"
+						  editable="false"
+						  width="100%" />
+		</mx:HBox>
+		<charts:Pie3DChart id="pie"
+						   width="100%"
+						   height="100%" />
+	</mx:VBox>
+</mx:Application>
